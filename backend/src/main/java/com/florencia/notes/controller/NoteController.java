@@ -71,4 +71,23 @@ public class NoteController {
     public ResponseEntity<Note> unarchiveNote(@PathVariable Long id) {
         return ResponseEntity.ok(noteService.unarchive(id));
     }
+    
+    @PutMapping("/{noteId}/tags/{tagName}")
+    public ResponseEntity<Note> addTag(
+    		@PathVariable Long noteId,
+    		@PathVariable String tagName) {
+    	return ResponseEntity.ok(noteService.addTag(noteId, tagName));
+    }
+    
+    @DeleteMapping("/{noteId}/tags/{tagName}")
+    public ResponseEntity<Note>	removeTag(
+    		@PathVariable Long noteId,
+			@PathVariable String tagName) {
+		return ResponseEntity.ok(noteService.removeTag(noteId, tagName));
+	}	
+    
+    @GetMapping("/by-tag/{tagName}")public List<Note> getByTag(
+    		@PathVariable String tagName) {
+    	return noteService.getByTag(tagName);
+    }
 }
