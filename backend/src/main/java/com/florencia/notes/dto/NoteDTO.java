@@ -1,11 +1,20 @@
 package com.florencia.notes.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+
 import java.util.List;
 
 public class NoteDTO {
 
     private Long id;
+    
+    @NotBlank(message = "Title is required")
+    @Size(max = 100, message = "Title must be at most 100 characters")
     private String title;
+    
+    @NotBlank(message = "Content is required")
     private String content;
     private boolean archived;
     private List<TagDTO> tags;

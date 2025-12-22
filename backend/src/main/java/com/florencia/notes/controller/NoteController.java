@@ -1,14 +1,13 @@
 package com.florencia.notes.controller;
 
 import com.florencia.notes.dto.NoteDTO;
-import com.florencia.notes.mapper.NoteMapper;
-import com.florencia.notes.model.Note;
 import com.florencia.notes.service.NoteService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/notes")
@@ -22,7 +21,7 @@ public class NoteController {
     }
 
     @PostMapping
-    public ResponseEntity<NoteDTO> createNote(@RequestBody NoteDTO noteDTO) {
+    public ResponseEntity<NoteDTO> createNote(@Valid @RequestBody NoteDTO noteDTO) {
         return ResponseEntity.ok(noteService.create(noteDTO));
     }
 
