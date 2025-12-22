@@ -1,5 +1,7 @@
 package com.florencia.notes.service;
 
+import com.florencia.notes.dto.NoteDTO;
+import com.florencia.notes.mapper.NoteMapper;
 import com.florencia.notes.model.Note;
 import com.florencia.notes.model.Tag;
 import com.florencia.notes.repository.NoteRepository;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class NoteService {
@@ -22,48 +25,63 @@ public class NoteService {
         this.tagRepository = tagRepository;
     }
 
-    public Note create(Note note) {
-        return noteRepository.save(note);
+    public NoteDTO create(NoteDTO noteDTO) {
+    	Note note = NoteMapper.toEntity(noteDTO);
+        return NoteMapper.toDTO(noteRepository.save(note));
     }
 
-    public List<Note> getAll() {
-        return noteRepository.findAll();
+    public List<NoteDTO> getAll() {
+        return noteRepository.findAll().stream()
+        		.map(NoteMapper::toDTO)
+        		.collect(Collectors.toList()); 
     }
 
-    public List<Note> getActive() {
-        return noteRepository.findByArchivedFalse();
+    public List<NoteDTO> getActive() {
+        return noteRepository.findByArchivedFalse().stream()
+                .map(NoteMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
-    public List<Note> getArchived() {
-        return noteRepository.findByArchivedTrue();
+    public List<NoteDTO> getArchived() {
+        return noteRepository.findByArchivedTrue().stream()
+				.map(NoteMapper::toDTO)
+				.collect(Collectors.toList());
     }
 
-    public Optional<Note> getById(Long id) {
-        return noteRepository.findById(id);
+    public NoteDTO getById(Long id) {
+    	return noteRepository.findById(id)
+                .map(NoteMapper::toDTO)
+                .orElseThrow(() -> new RuntimeException("Note not found"));
     }
 
-    public Note update(Note note) {
-        return noteRepository.save(note);
+    public NoteDTO update(Long id, NoteDTO noteDTO) {
+    	Note note = noteRepository.findById(id)
+    			.orElseThrow(() -> new RuntimeException("Note not found"));
+    			
+    	note.setTitle(noteDTO.getTitle());
+    	note.setContent(noteDTO.getContent());
+        
+    	return NoteMapper.toDTO(noteRepository.save(note));
     }
 
     public void delete(Long id) {
         noteRepository.deleteById(id);
     }
 
-    public Note archive(Long id) {
+    public NoteDTO archive(Long id) {
         Note note = noteRepository.findById(id).orElseThrow();
         note.setArchived(true);
-        return noteRepository.save(note);
+        return NoteMapper.toDTO(noteRepository.save(note));
     }
 
-    public Note unarchive(Long id) {
+    public NoteDTO unarchive(Long id) {
         Note note = noteRepository.findById(id).orElseThrow();
         note.setArchived(false);
-        return noteRepository.save(note);
+        return NoteMapper.toDTO(noteRepository.save(note));
     }
     
     @Transactional
-    public Note addTag(Long noteId, String tagName) {
+    public NoteDTO addTag(Long noteId, String tagName) {
     	Note note = noteRepository.findById(noteId)
     			.orElseThrow(() -> new RuntimeException("Note not found"));
     	
@@ -77,11 +95,13 @@ public class NoteService {
     	note.getTags().add(tag);
     	tag.getNotes().add(note);
     	
-    	return noteRepository.save(note);
+    	Note saved = noteRepository.save(note);
+    	
+    	return NoteMapper.toDTO(saved);
 	}
     
     @Transactional
-    public Note removeTag(Long noteId, String tagName) {
+    public NoteDTO removeTag(Long noteId, String tagName) {
     	Note note = noteRepository.findById(noteId)
 				.orElseThrow(() -> new RuntimeException("Note not found"));
     	
@@ -91,11 +111,15 @@ public class NoteService {
     	note.getTags().remove(tag);
     	tag.getNotes().remove(note);
     	
-    	return noteRepository.save(note);
+    	Note saved = noteRepository.save(note);
+    	
+    	return NoteMapper.toDTO(saved);
     }
     
-    public List<Note> getByTag(String tagName) {
-    	return noteRepository.findByTagName(tagName);
+    public List<NoteDTO> getByTag(String tagName) {
+    	return noteRepository.findByTagName(tagName).stream()
+				.map(NoteMapper::toDTO)
+				.collect(Collectors.toList());
     }
      
 }
