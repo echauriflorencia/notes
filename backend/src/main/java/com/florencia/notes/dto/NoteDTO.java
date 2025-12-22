@@ -19,7 +19,25 @@ public class NoteDTO {
     private boolean archived;
     private List<TagDTO> tags;
 
-    public Long getId() {
+    public NoteDTO() {
+	}
+
+    public NoteDTO(String title, String content, boolean archived) {
+    	this.title = title;
+    	this.content = content;
+    	this.archived = archived;
+	}
+    
+    public NoteDTO(Long id, String title, String content, boolean archived, List<TagDTO> tags) {
+    	this.id = id;
+    	this.title = title;
+    	this.content = content;
+    	this.archived = archived;
+    	this.tags = tags;
+	}
+
+
+	public Long getId() {
         return id;
     }
 

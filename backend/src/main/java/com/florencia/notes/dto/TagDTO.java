@@ -11,6 +11,14 @@ public class TagDTO {
 	@Size(max = 30, message = "Name must be at most 30 characters")
 	private String name;
 	
+	public TagDTO() {
+	}
+	
+	public TagDTO(Long id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+	
 	public Long getId() {
 		return id;
 	}
