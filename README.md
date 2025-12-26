@@ -100,16 +100,15 @@ The backend includes unit tests covering:
 
 Run tests with:
 
-```bash
 mvn test
 
-### Running the Backend
+## Running the Backend
 mvn sprint-boot:run
 
 The API will be available at:
 http://localhost:8080
 
-### Database
+## Database
 Uses H2 in-memory database
 Automatically initialized on startup
 No external configuration required
@@ -117,7 +116,7 @@ No external configuration required
 ### Frontend Integration
 The frontend will be developed as a separate module using React and will consume this API.
 
-##Author
+## Author
 
 Florencia Echauri
 Software Developer
