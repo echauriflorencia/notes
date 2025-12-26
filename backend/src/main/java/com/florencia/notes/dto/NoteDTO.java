@@ -3,20 +3,29 @@ package com.florencia.notes.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
 
+@Schema(description = "Note data transfer object")
 public class NoteDTO {
 
+	@Schema(example = "1", description = "Unique identifier of the note")
     private Long id;
     
+	@Schema(example = "Meeting Notes", description = "Title of the note")
     @NotBlank(message = "Title is required")
     @Size(max = 100, message = "Title must be at most 100 characters")
     private String title;
     
+	@Schema(example = "Discuss project milestones and deadlines.", description = "Content of the note")
     @NotBlank(message = "Content is required")
     private String content;
+	
+	@Schema(example = "false", description = "Indicates if the note is archived")
     private boolean archived;
+	
+	@Schema(description = "List of tags associated with the note")
     private List<TagDTO> tags;
 
     public NoteDTO() {
