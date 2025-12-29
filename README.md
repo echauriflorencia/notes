@@ -16,15 +16,21 @@ The goal of this project is to demonstrate fullstack development skills, clean b
 
 ## Backend Features
 
-- Create, read, update and delete notes
-- Archive and unarchive notes
-- Tag management (add and remove tags)
-- Filter notes by tag
-- DTO-based API design
-- Input validation with clear error messages
-- Service layer with transactional logic
-- OpenAPI / Swagger documentation
-- Unit tests for service and controller layers
+
+The backend is built with Spring Boot and exposes a REST API for managing notes and tags.
+
+### Features implemented
+- CRUD operations for notes
+- Tag assignment to notes
+- Global exception handling
+- Validation with meaningful error responses
+- Basic authentication using Spring Security
+- Controller and integration tests with MockMvc
+
+### Security
+- HTTP Basic authentication
+- Protected `/api/**` endpoints
+- Public access to Swagger endpoints
 
 
 ## Tech Stack
