@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -24,6 +25,7 @@ import com.florencia.notes.exception.ResourceNotFoundException;
 import com.florencia.notes.service.NoteService;
 
 
+@AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(NoteController.class)
 class NoteControllerTest {
 

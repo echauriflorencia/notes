@@ -119,8 +119,156 @@ Uses H2 in-memory database
 Automatically initialized on startup
 No external configuration required
 
-### Frontend Integration
+
+## Frontend Integration
 The frontend will be developed as a separate module using React and will consume this API.
+
+## API Contract
+This section describes the REST API contract exposed by the backend.
+The contract is designed to be consumed by a frontend (React) with clear endpoints, predictable responses and consistent use of HTTP status codes.
+
+### Base URL
+/api/notes
+
+### Data model
+Note
+```json
+{ 
+  "id": 1,
+  "title": "Meeting notes",
+  "content": "Discuss project milestones",
+  "archived": false,
+  "createdAt": "2025-12-29T15:30:00",
+  "updatedAt": "2025-12-29T16:10:00"
+}
+```
+
+| Field    | Type | Description 
+| -------- | ------- | ------- |
+| id  | Long    | Unique identifier of the note
+| title | String     | Title of the note
+| content    | String    | Content of the note
+| archived    | Boolean    | Indicates if the note is archived
+| createdAt | DateTime 	 | Date and time of creation
+| updatedAt | DateTime 	 | Date and time of the last update
+
+### Endpoints
+
+#### Get all notes 
+GET /api/notes
+Successful response: Status 200 OK 
+```json
+{ 
+  "id": 1,
+   "title": "First note",
+   "content": "This is my first note",
+   "archived": false,
+   "createdAt": "2025-12-29T15:30:00",
+   "updatedAt": "2025-12-29T15:30:00"
+}
+```
+
+#### Get note by id
+GET /api/notes/{id}
+Successful response: Status 200 OK
+```json
+{ 
+   "id": 1,
+   "title": "First note",
+   "content": "This is my first note",
+   "archived": false,
+   "createdAt": "2025-12-29T15:30:00",
+   "updatedAt": "2025-12-29T15:30:00"
+}
+```
+
+Error: Status 404 Not Found
+```json
+{ 
+   "message": "Note not found"
+}
+```
+
+#### Create note
+POST /api/notes
+Request body
+```json
+{ 
+  "title": "New note",
+  "content": "This is a new note"
+}
+```
+
+Successful response: Status 201 Created
+```json
+{ 
+  "id": 2,
+  "title": "New note",
+  "content": "This is a new note",
+  "createdAt": "2025-12-29T16:00:00",
+  "updatedAt": "2025-12-29T16:00:00"
+}
+```
+
+Validations: 
+- title can't be empty
+- content can't be empty
+
+Error: Status 404 Bad Request
+```json
+{ 
+  "message": "Validation error",
+  "errors": {
+    "title": "Title is required"
+  }
+}
+```
+
+#### Update an existing note
+PUT /api/notes/{id}
+Request body
+```json
+{ 
+  "title": "Updated title",
+  "content": "Updated content"
+}
+```
+
+Successful response: Status 200 OK
+```json
+{ 
+ "id": 1,
+  "title": "Updated title",
+  "content": "Updated content",
+  "createdAt": "2025-12-29T15:30:00",
+  "updatedAt": "2025-12-29T16:20:00"
+}
+```
+
+Error: Status 404 Not Found
+```json
+{ 
+   "message": "Note not found"
+}
+```
+
+#### Delete note
+DELETE /api/notes/{id}
+Successful response: Status 204 No Content
+
+Error: Status 404 Not Found
+```json
+{ 
+   "message": "Note not found"
+}
+```
+
+### General conventions
+- All responses are delivered in JSON format.
+- Standard HTTP status codes are used.
+- Errors have a consistent structure.
+- The backend does not handle session state (stateless).
+- The contract is designed to be consumed by a SPA (React) frontend.
 
 ## Author
 
