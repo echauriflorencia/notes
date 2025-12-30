@@ -9,4 +9,5 @@ export interface Note {
     content: string;
     archived: boolean;
     tags: Tag[];
+    createdAt: string;
 }
